@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Triad AI | Navigating an Evolving AI Environment, Together</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Clash+Display:wght@600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --white: #ffffff;
+  --off: #f7f8fb;
+  --gray-50: #f0f2f6;
+  --gray-100: #e2e6ed;
+  --gray-300: #b0bac8;
+  --gray-500: #6b7a8d;
+  --gray-800: #2a3340;
+  --blue-pale: #e8f0f9;
+  --blue-light: #c8ddf0;
+  --blue-mid: #5b9bd5;
+  --blue: #2e74b8;
+  --blue-deep: #1a4f85;
+  --navy: #0d2644;
+  --black: #0a1520;
+  --accent: #3d8fd4;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--white);
+  color: var(--black);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* CURSOR */
+.cursor {
+  position: fixed; pointer-events: none; z-index: 9999;
+  transform: translate(-50%, -50%);
+  width: 10px; height: 10px;
+  transition: transform 0.1s;
+}
+.cursor-triangle {
+  width: 0; height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 10px solid var(--blue-mid);
+  filter: drop-shadow(0 0 4px rgba(91,155,213,0.6));
+  transition: transform 0.15s;
+}
+.cursor.hovered .cursor-triangle {
+  border-bottom-color: var(--blue);
+  transform: scale(1.6);
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 72px;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--gray-100);
+  animation: fadeDown 0.7s ease forwards;
+}
+
+/* LOGO */
+.logo {
+  display: flex; align-items: center; gap: 14px;
+  text-decoration: none;
+}
+.logo-icon {
+  position: relative;
+  width: 42px; height: 42px;
+  display: flex; align-items: center; justify-content: center;
+}
+.logo-tri-outer {
+  width: 0; height: 0;
+  border-left: 21px solid transparent;
+  border-right: 21px solid transparent;
+  border-bottom: 36px solid var(--blue);
+  position: absolute;
+  filter: drop-shadow(0 2px 8px rgba(46,116,184,0.3));
+}
+.logo-tri-mid {
+  width: 0; height: 0;
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+  border-bottom: 24px solid var(--blue-mid);
+  position: absolute;
+  top: 8px;
+}
+.logo-tri-inner {
+  width: 0; height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 12px solid var(--white);
+  position: absolute;
+  top: 16px;
+}
+.logo-text {
+  display: flex; flex-direction: column; gap: 1px;
+}
+.logo-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 24px; font-weight: 800;
+  color: var(--black); letter-spacing: -1px;
+  line-height: 1;
+}
+.logo-name span { color: var(--blue); }
+.logo-tag {
+  font-size: 10px; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--gray-300);
+  font-weight: 500;
+}
+
+nav ul { display: flex; gap: 40px; list-style: none; }
+nav ul a {
+  font-size: 13px; font-weight: 500; letter-spacing: 0.3px;
+  color: var(--gray-500); text-decoration: none;
+  text-transform: uppercase; letter-spacing: 0.8px;
+  transition: color 0.2s;
+}
+nav ul a:hover { color: var(--blue); }
+
+.nav-cta {
+  background: var(--blue);
+  color: var(--white) !important;
+  padding: 11px 26px; border-radius: 2px;
+  font-size: 13px; font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s;
+  letter-spacing: 0.3px;
+}
+.nav-cta:hover { background: var(--blue-deep); transform: translateY(-1px); }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  background: var(--white);
+  display: flex; align-items: center;
+  padding: 120px 72px 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background geometric pattern */
+.hero-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  overflow: hidden;
+}
+.hero-bg-tri {
+  position: absolute;
+  width: 0; height: 0;
+}
+.tri-1 {
+  border-left: 280px solid transparent;
+  border-right: 280px solid transparent;
+  border-bottom: 480px solid rgba(46,116,184,0.04);
+  top: -80px; right: 80px;
+}
+.tri-2 {
+  border-left: 180px solid transparent;
+  border-right: 180px solid transparent;
+  border-bottom: 310px solid rgba(91,155,213,0.05);
+  top: 60px; right: 200px;
+}
+.tri-3 {
+  border-left: 120px solid transparent;
+  border-right: 120px solid transparent;
+  border-bottom: 200px solid rgba(46,116,184,0.04);
+  bottom: 100px; left: -40px;
+}
+.tri-4 {
+  border-left: 60px solid transparent;
+  border-right: 60px solid transparent;
+  border-bottom: 100px solid rgba(91,155,213,0.06);
+  bottom: 200px; left: 60px;
+}
+
+/* Dot grid */
+.hero-dots {
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, var(--gray-100) 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.6;
+  mask-image: radial-gradient(ellipse 60% 80% at 80% 50%, black 0%, transparent 100%);
+}
+
+.hero-inner {
+  position: relative; z-index: 10;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Hero left */
+.hero-left {}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--blue-pale);
+  border: 1px solid var(--blue-light);
+  padding: 7px 14px; border-radius: 2px;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--blue-deep);
+  margin-bottom: 28px;
+  opacity: 0; animation: fadeUp 0.7s 0.2s ease forwards;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 0; height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 8px solid var(--blue);
+}
+
+h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(44px, 5.5vw, 76px);
+  font-weight: 800; line-height: 1.0;
+  letter-spacing: -3px; color: var(--black);
+  opacity: 0; animation: fadeUp 0.7s 0.35s ease forwards;
+  margin-bottom: 8px;
+}
+h1 .blue { color: var(--blue); }
+h1 .light { color: var(--gray-300); }
+
+.hero-slogan {
+  font-size: 16px; font-weight: 300; font-style: italic;
+  color: var(--gray-500); margin-top: 20px; line-height: 1.6;
+  opacity: 0; animation: fadeUp 0.7s 0.5s ease forwards;
+  border-left: 3px solid var(--blue-light);
+  padding-left: 16px;
+}
+
+.hero-sub {
+  margin-top: 16px; font-size: 15px; font-weight: 300;
+  color: var(--gray-500); line-height: 1.8; max-width: 440px;
+  opacity: 0; animation: fadeUp 0.7s 0.6s ease forwards;
+}
+
+.hero-actions {
+  margin-top: 40px; display: flex; gap: 16px; align-items: center;
+  opacity: 0; animation: fadeUp 0.7s 0.75s ease forwards;
+}
+.btn-primary {
+  background: var(--blue);
+  color: var(--white); padding: 15px 36px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px; font-weight: 600;
+  border: none; border-radius: 2px; cursor: pointer;
+  text-decoration: none; display: inline-block;
+  transition: background 0.2s, transform 0.2s;
+  letter-spacing: 0.3px;
+}
+.btn-primary:hover { background: var(--blue-deep); transform: translateY(-2px); }
+.btn-outline {
+  color: var(--blue); font-size: 14px; font-weight: 500;
+  text-decoration: none; display: flex; align-items: center; gap: 8px;
+  border: 1px solid var(--blue-light); padding: 14px 28px;
+  border-radius: 2px; transition: all 0.2s;
+}
+.btn-outline:hover { background: var(--blue-pale); border-color: var(--blue); gap: 14px; }
+
+/* Hero right — services preview */
+.hero-right {
+  opacity: 0; animation: fadeUp 0.7s 0.5s ease forwards;
+}
+.hero-services-title {
+  font-size: 11px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--gray-300);
+  font-weight: 600; margin-bottom: 24px;
+  display: flex; align-items: center; gap: 10px;
+}
+.hero-services-title::after {
+  content: ''; flex: 1; height: 1px; background: var(--gray-100);
+}
+
+.hero-service {
+  display: flex; align-items: flex-start; gap: 18px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--gray-100);
+  transition: padding-left 0.2s;
+}
+.hero-service:first-of-type { border-top: 1px solid var(--gray-100); }
+.hero-service:hover { padding-left: 8px; }
+
+.hs-icon {
+  width: 44px; height: 44px; flex-shrink: 0;
+  background: var(--blue-pale);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+}
+.hs-icon svg { width: 20px; height: 20px; }
+
+.hs-content {}
+.hs-num {
+  font-size: 10px; letter-spacing: 2px;
+  color: var(--blue-mid); font-weight: 600;
+  text-transform: uppercase; margin-bottom: 4px;
+}
+.hs-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px; font-weight: 700;
+  color: var(--black); letter-spacing: -0.2px;
+  margin-bottom: 4px;
+}
+.hs-desc {
+  font-size: 13px; color: var(--gray-500);
+  font-weight: 300; line-height: 1.6;
+}
+
+/* Stats */
+.hero-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--gray-100);
+  margin-top: 60px;
+  padding-top: 40px;
+  opacity: 0; animation: fadeUp 0.7s 0.9s ease forwards;
+}
+.stat { display: flex; flex-direction: column; gap: 4px; }
+.stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 32px; font-weight: 800;
+  color: var(--blue); line-height: 1;
+}
+.stat-label { font-size: 12px; color: var(--gray-300); letter-spacing: 0.5px; }
+
+/* MARQUEE */
+.marquee-wrap {
+  background: var(--navy);
+  padding: 14px 0; overflow: hidden;
+}
+.marquee-track { display: flex; white-space: nowrap; animation: marquee 28s linear infinite; }
+.marquee-item {
+  font-size: 11px; letter-spacing: 2.5px;
+  text-transform: uppercase; color: rgba(255,255,255,0.3);
+  padding: 0 40px; font-weight: 500;
+}
+.marquee-item span { color: var(--blue-mid); margin-right: 40px; }
+
+/* SECTIONS */
+.section { padding: 120px 72px; }
+.section-alt { background: var(--off); }
+
+.section-label {
+  font-size: 11px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--blue);
+  font-weight: 600; margin-bottom: 12px;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-label::before {
+  content: '';
+  width: 0; height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 8px solid var(--blue);
+}
+
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(32px, 3.5vw, 48px);
+  font-weight: 800; letter-spacing: -2px;
+  line-height: 1.05; color: var(--black);
+  max-width: 560px; margin-bottom: 64px;
+}
+
+/* SERVICES GRID */
+.services-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 2px;
+  background: var(--gray-100);
+}
+.service-card {
+  background: var(--white);
+  padding: 48px 40px;
+  position: relative; overflow: hidden;
+  transition: background 0.3s;
+}
+.service-card::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--blue), var(--blue-mid));
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.35s ease;
+}
+.service-card:hover { background: var(--off); }
+.service-card:hover::after { transform: scaleX(1); }
+.service-card:hover .sc-arrow { transform: translate(4px,-4px); color: var(--blue); }
+
+.sc-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px; color: var(--blue-mid);
+  letter-spacing: 2px; margin-bottom: 28px; font-weight: 700;
+}
+.sc-icon {
+  width: 48px; height: 48px;
+  background: var(--blue-pale);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+}
+.sc-icon svg { width: 22px; height: 22px; }
+.sc-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px; font-weight: 700;
+  letter-spacing: -0.5px; color: var(--black);
+  margin-bottom: 12px; line-height: 1.2;
+}
+.sc-desc { font-size: 14px; color: var(--gray-500); line-height: 1.8; font-weight: 300; }
+.sc-arrow {
+  position: absolute; bottom: 40px; right: 40px;
+  font-size: 18px; color: var(--gray-300);
+  transition: transform 0.25s, color 0.25s;
+}
+
+/* WHY SECTION */
+.why-inner {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 100px; align-items: center;
+}
+.why-list { list-style: none; }
+.why-item {
+  padding: 28px 0;
+  border-bottom: 1px solid var(--gray-100);
+  display: flex; gap: 20px; align-items: flex-start;
+}
+.why-item:first-child { border-top: 1px solid var(--gray-100); }
+.why-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px; color: var(--blue-mid);
+  font-weight: 700; letter-spacing: 1px;
+  padding-top: 2px; flex-shrink: 0;
+}
+.why-icon {
+  width: 36px; height: 36px; flex-shrink: 0;
+  background: var(--blue-pale); border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+}
+.why-text h4 {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px; font-weight: 700;
+  color: var(--black); margin-bottom: 5px; letter-spacing: -0.2px;
+}
+.why-text p { font-size: 13px; color: var(--gray-500); line-height: 1.7; font-weight: 300; }
+
+/* TRIAD VISUAL */
+.triad-visual {
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.triad-diagram {
+  position: relative; width: 340px; height: 340px;
+}
+.td-center {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px; height: 80px;
+  background: var(--blue);
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  display: flex; align-items: center; justify-content: center;
+}
+.td-node {
+  position: absolute;
+  width: 100px; height: 100px;
+  background: var(--white);
+  border: 2px solid var(--blue-light);
+  border-radius: 50%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 4px;
+  box-shadow: 0 4px 20px rgba(46,116,184,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.td-node:hover { transform: scale(1.08); box-shadow: 0 8px 32px rgba(46,116,184,0.2); }
+.td-node-1 { top: 0; left: 50%; transform: translateX(-50%); }
+.td-node-2 { bottom: 20px; left: 10px; }
+.td-node-3 { bottom: 20px; right: 10px; }
+.td-node svg { width: 24px; height: 24px; color: var(--blue); }
+.td-node span { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--gray-500); font-weight: 600; }
+/* Connecting lines */
+.td-lines {
+  position: absolute; inset: 0;
+}
+
+/* CTA */
+.cta-section {
+  background: var(--navy);
+  padding: 100px 72px; text-align: center;
+  position: relative; overflow: hidden;
+}
+.cta-bg-tri {
+  position: absolute;
+  width: 0; height: 0;
+}
+.cta-tri-1 {
+  border-left: 300px solid transparent;
+  border-right: 300px solid transparent;
+  border-bottom: 520px solid rgba(255,255,255,0.02);
+  top: -100px; left: 50%; transform: translateX(-50%);
+}
+.cta-section h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(34px, 4vw, 56px);
+  font-weight: 800; letter-spacing: -2px;
+  color: var(--white); line-height: 1.05;
+  max-width: 620px; margin: 0 auto 20px;
+  position: relative;
+}
+.cta-section p {
+  font-size: 16px; color: rgba(255,255,255,0.5);
+  margin-bottom: 44px; font-weight: 300; position: relative;
+}
+.cta-btn {
+  background: var(--blue-mid);
+  color: var(--white);
+  padding: 18px 48px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px; font-weight: 600;
+  border-radius: 2px; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 10px;
+  transition: background 0.2s, transform 0.2s; position: relative;
+}
+.cta-btn:hover { background: var(--blue); transform: translateY(-2px); }
+
+/* CONTACT */
+.contact-inner {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 100px;
+}
+.form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+.form-group label {
+  font-size: 11px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--gray-500); font-weight: 600;
+}
+.form-group input,
+.form-group textarea,
+.form-group select {
+  background: var(--off); border: 1px solid var(--gray-100);
+  border-radius: 2px; padding: 14px 16px;
+  font-family: 'Outfit', sans-serif; font-size: 14px; color: var(--black);
+  outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+  cursor: text; resize: none;
+}
+.form-group select { cursor: pointer; }
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--blue-mid);
+  box-shadow: 0 0 0 3px rgba(91,155,213,0.12);
+}
+.form-group textarea { min-height: 110px; }
+.form-submit {
+  background: var(--blue); color: var(--white); border: none;
+  padding: 16px 40px; font-family: 'Outfit', sans-serif;
+  font-size: 14px; font-weight: 600; border-radius: 2px;
+  cursor: pointer; width: 100%;
+  transition: background 0.2s, transform 0.2s;
+}
+.form-submit:hover { background: var(--blue-deep); transform: translateY(-1px); }
+
+.contact-feature {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 20px;
+}
+.cf-icon {
+  width: 36px; height: 36px; flex-shrink: 0;
+  background: var(--blue-pale);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+}
+.cf-text { font-size: 14px; color: var(--gray-500); font-weight: 300; }
+
+/* FOOTER */
+footer {
+  background: var(--black);
+  padding: 48px 72px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-logo {
+  display: flex; align-items: center; gap: 12px;
+}
+.footer-logo-tri {
+  width: 0; height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 20px solid var(--blue-mid);
+}
+.footer-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px; font-weight: 800;
+  color: var(--white); letter-spacing: -0.5px;
+}
+.footer-name span { color: var(--blue-mid); }
+.footer-copy { font-size: 12px; color: rgba(255,255,255,0.25); }
+.footer-links { display: flex; gap: 28px; }
+.footer-links a {
+  font-size: 12px; color: rgba(255,255,255,0.35);
+  text-decoration: none; letter-spacing: 0.8px;
+  text-transform: uppercase; transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--white); }
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ANIMATIONS */
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeDown { from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:translateY(0)} }
+@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  nav{padding:18px 24px;}
+  nav ul{display:none;}
+  .hero{padding:120px 24px 80px;}
+  .hero-inner{grid-template-columns:1fr;gap:48px;}
+  .section{padding:80px 24px;}
+  .services-grid{grid-template-columns:1fr;gap:2px;}
+  .why-inner{grid-template-columns:1fr;gap:60px;}
+  .cta-section{padding:80px 24px;}
+  .contact-inner{grid-template-columns:1fr;gap:60px;}
+  footer{flex-direction:column;gap:24px;text-align:center;padding:40px 24px;}
+  .hero-stats{grid-template-columns:repeat(3,1fr);}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"><div class="cursor-triangle"></div></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-icon">
+      <div class="logo-tri-outer"></div>
+      <div class="logo-tri-mid"></div>
+      <div class="logo-tri-inner"></div>
+    </div>
+    <div class="logo-text">
+      <div class="logo-name">Triad<span>AI</span></div>
+      <div class="logo-tag">AI Consulting</div>
+    </div>
+  </a>
+  <ul>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#why">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Free Consultation</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-bg-tri tri-1"></div>
+    <div class="hero-bg-tri tri-2"></div>
+    <div class="hero-bg-tri tri-3"></div>
+    <div class="hero-bg-tri tri-4"></div>
+    <div class="hero-dots"></div>
+  </div>
+
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow">AI Consulting for Small Business</div>
+      <h1>Your Business,<br><span class="blue">Powered</span><br>by <span class="light">AI.</span></h1>
+      <p class="hero-slogan">"Navigating an Evolving AI Environment, Together"</p>
+      <p class="hero-sub">Triad AI helps small and mid-sized businesses harness the power of artificial intelligence — simply, practically, and without the overwhelm.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Book a Free Consultation</a>
+        <a href="#services" class="btn-outline">Our Services →</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num">3×</span>
+          <span class="stat-label">Avg. time saved</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">SMB</span>
+          <span class="stat-label">Focused expertise</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">Fast</span>
+          <span class="stat-label">Time to value</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-services-title">What We Do</div>
+      <div class="hero-service">
+        <div class="hs-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round">
+            <polygon points="12,2 22,20 2,20"/>
+            <line x1="12" y1="8" x2="12" y2="14"/>
+            <line x1="12" y1="17" x2="12" y2="18"/>
+          </svg>
+        </div>
+        <div class="hs-content">
+          <div class="hs-num">01</div>
+          <div class="hs-title">AI Consulting Strategy</div>
+          <div class="hs-desc">A clear, actionable roadmap for integrating AI where it creates the most value for your business.</div>
+        </div>
+      </div>
+      <div class="hero-service">
+        <div class="hs-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round">
+            <polyline points="17,1 21,5 17,9"/>
+            <path d="M3,11V9a4,4,0,0,1,4-4h14"/>
+            <polyline points="7,23 3,19 7,15"/>
+            <path d="M21,13v2a4,4,0,0,1-4,4H3"/>
+          </svg>
+        </div>
+        <div class="hs-content">
+          <div class="hs-num">02</div>
+          <div class="hs-title">Workflow Automation</div>
+          <div class="hs-desc">Eliminate repetitive manual tasks so your team spends time on work that actually moves the needle.</div>
+        </div>
+      </div>
+      <div class="hero-service">
+        <div class="hs-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+          </svg>
+        </div>
+        <div class="hs-content">
+          <div class="hs-num">03</div>
+          <div class="hs-title">AI Tool Setup & Training</div>
+          <div class="hs-desc">The right tools, configured correctly, with your team trained and confident from day one.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item"><span>▲</span> AI Strategy</span>
+    <span class="marquee-item"><span>▲</span> Workflow Automation</span>
+    <span class="marquee-item"><span>▲</span> Tool Setup & Training</span>
+    <span class="marquee-item"><span>▲</span> Process Optimization</span>
+    <span class="marquee-item"><span>▲</span> AI Integration</span>
+    <span class="marquee-item"><span>▲</span> Cost Reduction</span>
+    <span class="marquee-item"><span>▲</span> AI Strategy</span>
+    <span class="marquee-item"><span>▲</span> Workflow Automation</span>
+    <span class="marquee-item"><span>▲</span> Tool Setup & Training</span>
+    <span class="marquee-item"><span>▲</span> Process Optimization</span>
+    <span class="marquee-item"><span>▲</span> AI Integration</span>
+    <span class="marquee-item"><span>▲</span> Cost Reduction</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="section-label reveal">What We Do</div>
+  <h2 class="section-title reveal">Services built for the way you work.</h2>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="sc-num">01</div>
+      <div class="sc-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round">
+          <polygon points="12,2 22,20 2,20"/>
+          <line x1="12" y1="8" x2="12" y2="14"/>
+          <line x1="12" y1="17" x2="12" y2="18"/>
+        </svg>
+      </div>
+      <h3 class="sc-title">AI Consulting Strategy</h3>
+      <p class="sc-desc">We assess your current operations and build a clear, actionable roadmap for integrating AI where it creates the most value for your specific business.</p>
+      <span class="sc-arrow">↗</span>
+    </div>
+    <div class="service-card reveal">
+      <div class="sc-num">02</div>
+      <div class="sc-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round">
+          <polyline points="17,1 21,5 17,9"/>
+          <path d="M3,11V9a4,4,0,0,1,4-4h14"/>
+          <polyline points="7,23 3,19 7,15"/>
+          <path d="M21,13v2a4,4,0,0,1-4,4H3"/>
+        </svg>
+      </div>
+      <h3 class="sc-title">Workflow Automation</h3>
+      <p class="sc-desc">Eliminate repetitive manual tasks by connecting your tools and automating your processes — so your team spends time on work that matters.</p>
+      <span class="sc-arrow">↗</span>
+    </div>
+    <div class="service-card reveal">
+      <div class="sc-num">03</div>
+      <div class="sc-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+        </svg>
+      </div>
+      <h3 class="sc-title">AI Tool Setup & Training</h3>
+      <p class="sc-desc">We identify the right AI tools for your needs, configure them properly, and train your team to use them confidently from day one.</p>
+      <span class="sc-arrow">↗</span>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="section section-alt" id="why">
+  <div class="why-inner">
+    <div>
+      <div class="section-label reveal">Why Triad AI</div>
+      <h2 class="section-title reveal">We speak business,<br>not buzzwords.</h2>
+      <p style="font-size:15px;color:var(--gray-500);line-height:1.8;font-weight:300;max-width:400px;" class="reveal">Most small businesses are left behind when it comes to AI. The technology moves fast, the jargon is confusing, and big consultancies ignore you. We're different.</p>
+
+      <!-- Triad diagram -->
+      <div class="triad-visual" style="margin-top:48px;" >
+        <div class="triad-diagram reveal">
+          <svg style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 340 340">
+            <line x1="170" y1="60" x2="60" y2="280" stroke="var(--blue-light)" stroke-width="1.5" stroke-dasharray="4 4"/>
+            <line x1="170" y1="60" x2="280" y2="280" stroke="var(--blue-light)" stroke-width="1.5" stroke-dasharray="4 4"/>
+            <line x1="60" y1="280" x2="280" y2="280" stroke="var(--blue-light)" stroke-width="1.5" stroke-dasharray="4 4"/>
+            <polygon points="170,130 145,175 195,175" fill="var(--blue)" opacity="0.15"/>
+            <polygon points="170,130 145,175 195,175" fill="none" stroke="var(--blue)" stroke-width="1.5"/>
+          </svg>
+          <div class="td-node td-node-1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" style="width:22px;height:22px;"><polygon points="12,2 22,20 2,20"/></svg>
+            <span>Strategy</span>
+          </div>
+          <div class="td-node td-node-2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" style="width:22px;height:22px;"><polyline points="17,1 21,5 17,9"/><path d="M3,11V9a4,4,0,0,1,4-4h14"/><polyline points="7,23 3,19 7,15"/><path d="M21,13v2a4,4,0,0,1-4,4H3"/></svg>
+            <span>Automate</span>
+          </div>
+          <div class="td-node td-node-3">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" style="width:22px;height:22px;"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+            <span>Train</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ul class="why-list">
+      <li class="why-item reveal">
+        <span class="why-num">01</span>
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" style="width:16px;height:16px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="why-text">
+          <h4>SMB-First Approach</h4>
+          <p>We focus exclusively on small and mid-sized businesses. Your challenges are our specialty — not an afterthought.</p>
+        </div>
+      </li>
+      <li class="why-item reveal">
+        <span class="why-num">02</span>
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" style="width:16px;height:16px;"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <div class="why-text">
+          <h4>Operational Background</h4>
+          <p>Founded by someone with real enterprise operations experience. We understand how businesses actually run.</p>
+        </div>
+      </li>
+      <li class="why-item reveal">
+        <span class="why-num">03</span>
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" style="width:16px;height:16px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="why-text">
+          <h4>No Tech Overwhelm</h4>
+          <p>We handle the complexity. You get simple, practical solutions your team can actually use starting day one.</p>
+        </div>
+      </li>
+      <li class="why-item reveal">
+        <span class="why-num">04</span>
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" style="width:16px;height:16px;"><polyline points="13,2 13,9 20,9"/><polygon points="22,2 2,9 13,9 13,22"/></svg>
+        </div>
+        <div class="why-text">
+          <h4>Fast Time to Value</h4>
+          <p>No months-long engagements before you see results. We move quickly and show measurable progress early.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-bg-tri cta-tri-1"></div>
+  <h2 class="reveal">Ready to bring AI into your business?</h2>
+  <p class="reveal">Let's talk about what's possible. First consultation is always free.</p>
+  <a href="#contact" class="cta-btn reveal">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:16px;height:16px;"><polygon points="12,2 22,20 2,20"/></svg>
+    Schedule a Free Call
+  </a>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <div class="contact-inner">
+    <div>
+      <div class="section-label reveal">Get in Touch</div>
+      <h2 class="section-title reveal">Let's start a conversation.</h2>
+      <p style="font-size:15px;color:var(--gray-500);line-height:1.8;font-weight:300;margin-bottom:40px;" class="reveal">Fill out the form and we'll get back to you within 24 hours. No sales pitch — just a real conversation about your business.</p>
+      <div class="reveal">
+        <div class="contact-feature">
+          <div class="cf-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" style="width:16px;height:16px;"><polygon points="12,2 22,20 2,20"/></svg>
+          </div>
+          <span class="cf-text">Free initial consultation — no commitment required</span>
+        </div>
+        <div class="contact-feature">
+          <div class="cf-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" style="width:16px;height:16px;"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+          </div>
+          <span class="cf-text">Response within 24 hours</span>
+        </div>
+        <div class="contact-feature">
+          <div class="cf-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" style="width:16px;height:16px;"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          </div>
+          <span class="cf-text">Tailored to your specific business and industry</span>
+        </div>
+      </div>
+    </div>
+    <form class="reveal" onsubmit="handleSubmit(event)">
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" placeholder="Jane Smith" required>
+      </div>
+      <div class="form-group">
+        <label>Business Email</label>
+        <input type="email" placeholder="jane@yourbusiness.com" required>
+      </div>
+      <div class="form-group">
+        <label>Business Type</label>
+        <select>
+          <option value="">Select your industry...</option>
+          <option>Retail</option>
+          <option>Restaurant / Food Service</option>
+          <option>Healthcare / Wellness</option>
+          <option>Real Estate</option>
+          <option>Professional Services</option>
+          <option>Construction / Trades</option>
+          <option>Logistics / Operations</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>How can we help?</label>
+        <textarea placeholder="Tell us about your business and what you're hoping to achieve with AI..."></textarea>
+      </div>
+      <button type="submit" class="form-submit">Send Message →</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <div class="footer-logo-tri"></div>
+    <div class="footer-name">Triad<span>AI</span></div>
+  </div>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#why">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="footer-copy">© 2026 Triad AI. All rights reserved.</div>
+</footer>
+
+<script>
+// Cursor
+const cursor = document.getElementById('cursor');
+let mx=0, my=0;
+document.addEventListener('mousemove', e => {
+  mx=e.clientX; my=e.clientY;
+  cursor.style.left=mx+'px'; cursor.style.top=my+'px';
+});
+document.querySelectorAll('a,button,input,textarea,select').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+});
+
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold: 0.1});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// Form
+// Replace YOUR_FORM_ID below with your Formspree form ID (sign up free at formspree.io)
+const FORM_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+
+async function handleSubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  const btn = form.querySelector('.form-submit');
+
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(FORM_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: new FormData(form)
+    });
+
+    if (res.ok) {
+      btn.textContent = 'Message Sent ▲';
+      btn.style.background = '#2a7a4a';
+      form.reset();
+      setTimeout(() => {
+        btn.textContent = 'Send Message →';
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 3000);
+    } else {
+      throw new Error('Server error');
+    }
+  } catch {
+    btn.textContent = 'Failed — try again';
+    btn.style.background = '#b94040';
+    btn.disabled = false;
+    setTimeout(() => {
+      btn.textContent = 'Send Message →';
+      btn.style.background = '';
+    }, 3000);
+  }
+}
+</script>
+</body>
+</html>

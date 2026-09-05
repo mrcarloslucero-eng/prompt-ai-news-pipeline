@@ -1,0 +1,13 @@
+# Secrets are never in the repo
+.env
+*.log
+
+# Claude/Kimi local settings (contain permission history with old credentials)
+.claude/
+
+# Runtime state (local only)
+usage_log.jsonl
+
+# Python
+__pycache__/
+*.pyc
